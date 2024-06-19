@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1>{{ page_user.user.username}} Profile</h1>
+    <br/><br/>
+
+    <div class="card mb-3">
+      <div class="row g-0" style="border-bottom: 1px solid lightgray">
+        <div class="col-md-2">
+            {% if page_user.profile_pic.url %}
+                <img src="{{ page_user.profile_pic.url }}" class="rounded-start" width="175" height="175">
+            {% endif %}
+        </div>
+        <div class="col-md-10">
+          <div class="card-body">
+              <h5 class="card-title">{{ page_user.user.first_name }} {{ page_user.user.last_name }}</h5>
+              <p class="small text-muted">
+                  {% if page_user.fb_url %}
+                    <a href="{{ page_user.fb_url }}">Facebook</a>
+                  {% endif %}
+                  {% if page_user.instagram_url %}
+                    <a href="{{ page_user.instagram_url }}">Instagram</a>
+                  {% endif %}
+              </p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+            <div>
+                <br/>
+                <h3 class="px-2">Biograpy</h3>
+                <p class="card-text px-2">{{ page_user.bio | safe }}</p>
+                <br/>
+            </div>
+      </div>
+    </div>
+
+    <br/><br/>
+
+    <h2>{{ page_user.user.username }} Posts</h2>
+    <br/>
+    <ul>
+
+    {% for post in allposts %}
+        {% if page_user.user.id == post.author.id %}
+    	<li style="list-style-type: none">
+            <div class="card">
+              <div class="card-header">
+                  <h4><a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a></h4>
+                  category: <a href="{% url 'category' post.category|slugify %}">{{ post.category }}</a>
+                {% if user.is_authenticated %}
+                    {% if user.id == post.author.id %}
+                        <small>
+                        - <a href="{% url 'update_post' post.pk %}">(Edit)</a>
+                        <a href="{% url 'delete_post' post.pk %}">(Delete)</a>
+                        </small>
+                    {% endif %}
+                {% endif %}
+              </div>
+              <div class="card-body">
+                <p>{{ post.snippet | slice:":500" | safe}}</p>
+              </div>
+              <div class="card-footer text-body-secondary text-center">
+                {{ post.post_date }}
+              </div>
+            </div>
+            <br/><br/><br/>
+        </li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+{% endblock %}
+

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Login Page
+{% endblock %}
+
+{% block content %}
+    <h1>Login to the Blog</h1>
+    <br/><br/>
+    <div class="form-group">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                Username:
+                <br/><br/>
+                <input type="text" class="form-control" name="username" placeholder="Username">
+            </div>
+            <div class="mb-3">
+                Password:
+                <br/><br/>
+                <input type="password" class="form-control" name="password" placeholder="Password">
+            </div>
+            <br/>
+            <button class="btn btn-secondary">Login</button>
+            <br/><br/>
+            Not Register? Sign Up <a href="{% url 'register' %}">Here</a>
+        </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Delete Comment From the Post
+{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        {% if request.user.username|stringformat:"s" == comment.user|stringformat:"s" %}
+            <h1>Delete Comment</h1>
+            <br/><br/>
+            <h3>Delete your comment from this post</h3>
+            <div class="form-group">
+                <form method="POST">
+                    {% csrf_token %}
+                    <strong>Are you sure?</strong><br/>
+                    <button class="btn btn-secondary">Delete Comment</button>
+                </form>
+            </div>
+        {% elif user.is_superuser == True %}
+            <h1>Delete Comment</h1>
+            <br/><br/>
+            <h3>Delete your comment from this post</h3>
+            <div class="form-group">
+                <form method="POST">
+                    {% csrf_token %}
+                    <strong>Are you sure?</strong><br/>
+                    <button class="btn btn-secondary">Delete Comment</button>
+                </form>
+            </div>
+        {% endif %}
+    {% else %}
+
+    <h1>You are not Login, please Login to change your post</h1>
+
+    {% endif %}
+
+{% endblock %}

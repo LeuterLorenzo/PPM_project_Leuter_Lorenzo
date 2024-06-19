@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ post.title_tag }}
+{% endblock %}
+
+
+{% block content %}
+
+
+    <h1>{{ post.title }}</h1>
+    <small>By: {{ post.author.first_name }} {{ post.author.last_name }} - {{ post.post_date }}
+        {% if user.is_authenticated %}
+            {% if user.id == post.author.id %}
+                - <a href="{% url 'update_post' post.pk %}">(Edit)</a>
+                <a href="{% url 'delete_post' post.pk %}">(Delete)</a> <br/> </small>
+            {% endif %}
+        {% endif %}
+    <hr>
+    <br/>
+
+    {% if post.header_image %}
+        <img src="{{ post.header_image.url }}">
+    {% endif %}
+
+    <br/><br/>
+
+    {{ post.body|safe }}
+
+    <br/>
+
+    <a href="{% url 'home' %}" class="btn btn-secondary">Back To The Home</a>
+
+    <br/>
+
+    <hr>
+    <br/>
+
+    {% if liked == False and unliked == False %}
+        {% if user.is_authenticated %}
+            <div class="row">
+                <div class="col-1" style="width: 70px">
+                    <form action="{% url 'like_post' post.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button>
+                    </form>
+                 </div>
+                <div class="col-2" style="width: 80px">
+                    <form action="{% url 'unlike_post' post.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit", name="post_id_un", value="{{ post.id }}", class="btn btn-primary btn-sm">UnLike</button>
+                    </form>
+                </div>
+            <div class="col -3">
+                {{ total_likes }} Likes -
+                {{ total_unlikes }} UnLikes
+            </div>
+            </div>
+        {% else %}
+            <small><a href="{% url 'login' %}">Login</a> to like</small>
+        {% endif %}
+    {% elif liked and unliked == False %}
+        <form action="{% url 'like_post' post.pk %}" method="post">
+        {% csrf_token %}
+        {% if user.is_authenticated %}
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Unlike</button>
+        {% else %}
+            <small><a href="{% url 'login' %}">Login</a> to like</small>
+        {% endif %}
+             {{ total_likes }} Likes
+             {{ total_unlikes }} unLikes
+        </form>
+    {% elif liked == False and unliked %}
+        <form action="{% url 'unlike_post' post.pk %}" method="post">
+            {% csrf_token %}
+            {% if user.is_authenticated %}
+                <button type="submit", name="post_id_un", value="{{ post.id }}", class="btn btn-danger btn-sm">like</button>
+            {% else %}
+                <small><a href="{% url 'login' %}">Login</a> to like</small>
+            {% endif %}
+                 {{ total_likes }} Likes
+                 {{ total_unlikes }} unLikes
+        </form>
+    {% endif %}
+
+    <hr/>
+
+    <br/>
+
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-2" style="width: 175px">
+            {% if post.author.profile.profile_pic.url %}
+                <img src="{{ post.author.profile.profile_pic.url }}" class="rounded-start" width="175" height="175">
+            {% endif %}
+        </div>
+        <div class="col-md-10">
+          <div class="card-body">
+              <h5 class="card-title"><a href="{% url 'show_profile_page' post.author.profile.id %}">{{ post.author.first_name }} {{ post.author.last_name }}</a></h5>
+              <p class="small text-muted">
+                  {% if post.author.profile.fb_url %}
+                    <a href="{{ ost.author.profile.fb_url }}">Facebook</a>
+                  {% endif %}
+                  {% if post.author.profile.instagram_url %}
+                    <a href="{{ post.author.profile.instagram_url }}">Instagram</a>
+                  {% endif %}
+              </p>
+            <p class="card-text">{{ post.author.profile.bio | truncatechars_html:300 | safe }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <hr>
+
+    <br/>
+
+    <h1>Comments</h1>
+
+    {%  if not post.comments.all %}
+        No Comments Yet <a href="{% url 'add_comment' post.pk %}">Add One</a>
+    {% else %}
+        <a href="{% url 'add_comment' post.pk %}">Add Comment</a>
+        <br/><br/>
+        {% for comment in post.comments.all %}
+            <strong>{{ comment.user }} - {{ comment.date_added }}</strong><br/>
+            {{ comment.body }}
+            {% if user.is_superuser == True %}
+                <small>
+                <a href="{% url 'delete_comment' comment.pk %}">(Delete)</a>
+                </small>
+            {% elif request.user.username|stringformat:"s" == comment.user|stringformat:"s" %}
+                <small>
+                <a href="{% url 'delete_comment' comment.pk %}">(Delete)</a>
+                </small>
+            {% endif %}
+            <br/><br/>
+        {% endfor %}
+    {% endif %}
+
+    <br/><br/>
+
+{% endblock %}

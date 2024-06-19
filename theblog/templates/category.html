@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if category_posts %}
+    <h1>{{ categorys }}</h1>
+    <br/>
+    {% for post in category_posts %}
+        <li style="list-style-type: none">
+            <div class="card">
+              <div class="card-header">
+                  <h4><a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a></h4>
+                  <a href="{% url 'category' post.category|slugify %}">{{ post.category }}</a>
+                - {{ post.author.first_name }} {{ post.author.last_name }}
+                {% if user.is_authenticated %}
+                    {% if user.id == post.author.id %}
+                        <small>
+                        - <a href="{% url 'update_post' post.pk %}">(Edit)</a>
+                        <a href="{% url 'delete_post' post.pk %}">(Delete)</a>
+                        </small>
+                    {% endif %}
+                {% endif %}
+              </div>
+              <div class="card-body">
+                <p>{{ post.snippet|slice:":500"| safe }}</p>
+              </div>
+              <div class="card-footer text-body-secondary text-center">
+                {{ post.post_date }}
+              </div>
+            </div>
+            <br/><br/><br/>
+        </li>
+    {% endfor %}
+    {% else %}
+        <h2>Sorry this page does not exist.</h2>
+    {% endif %}
+{% endblock %}
+

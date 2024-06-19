@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Create a New Category For Blog
+{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <h1>Add a new Category to your Blog</h1>
+    <br/><br/>
+    <div class="form-group">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br/>
+            <button class="btn btn-secondary">Add Category</button>
+        </form>
+    </div>
+    {% else %}
+
+    <h1>You are not Login, please Login to change your post</h1>
+
+    {% endif %}
+
+{% endblock %}
