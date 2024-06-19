@@ -48,7 +48,7 @@
                 <div class="col-2" style="width: 80px">
                     <form action="{% url 'unlike_post' post.pk %}" method="post">
                         {% csrf_token %}
-                        <button type="submit", name="post_id_un", value="{{ post.id }}", class="btn btn-primary btn-sm">UnLike</button>
+                        <button type="submit", name="post_id_un", value="{{ post.id }}", class="btn btn-primary btn-sm">disLike</button>
                     </form>
                 </div>
             <div class="col -3">
@@ -63,7 +63,7 @@
         <form action="{% url 'like_post' post.pk %}" method="post">
         {% csrf_token %}
         {% if user.is_authenticated %}
-            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Unlike</button>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Remove Like</button>
         {% else %}
             <small><a href="{% url 'login' %}">Login</a> to like</small>
         {% endif %}
@@ -74,7 +74,7 @@
         <form action="{% url 'unlike_post' post.pk %}" method="post">
             {% csrf_token %}
             {% if user.is_authenticated %}
-                <button type="submit", name="post_id_un", value="{{ post.id }}", class="btn btn-danger btn-sm">like</button>
+                <button type="submit", name="post_id_un", value="{{ post.id }}", class="btn btn-danger btn-sm">Remove dislike</button>
             {% else %}
                 <small><a href="{% url 'login' %}">Login</a> to like</small>
             {% endif %}
