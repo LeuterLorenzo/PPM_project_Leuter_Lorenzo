@@ -19,6 +19,10 @@
                         - <a href="{% url 'update_post' post.pk %}">(Edit)</a>
                         <a href="{% url 'delete_post' post.pk %}">(Delete)</a>
                         </small>
+                    {% elif user.is_superuser %}
+                        <small>
+                        - <a href="{% url 'delete_post' post.pk %}">(Delete)</a>
+                        </small>
                     {% endif %}
                 {% endif %}
               </div>
