@@ -9,7 +9,7 @@
 
 
     <h1>{{ post.title }}</h1>
-    <small>By: {{ post.author.first_name }} {{ post.author.last_name }} - {{ post.post_date }}
+    <small>By: {{ post.author.username }} - {{ post.post_date }}
         {% if user.is_authenticated %}
             {% if user.id == post.author.id %}
                 - <a href="{% url 'update_post' post.pk %}">(Edit)</a>
@@ -87,6 +87,7 @@
 
     <br/>
 
+    {% if post.author.profile %}
     <div class="card mb-3">
       <div class="row g-0">
         <div class="col-md-2" style="width: 175px">
@@ -96,7 +97,7 @@
         </div>
         <div class="col-md-10">
           <div class="card-body">
-              <h5 class="card-title"><a href="{% url 'show_profile_page' post.author.profile.id %}">{{ post.author.first_name }} {{ post.author.last_name }}</a></h5>
+              <h5 class="card-title"><a href="{% url 'show_profile_page' post.author.profile.id %}">{{ post.author.username }} </a></h5>
               <p class="small text-muted">
                   {% if post.author.profile.fb_url %}
                     <a href="{{ ost.author.profile.fb_url }}">Facebook</a>
@@ -110,7 +111,9 @@
         </div>
       </div>
     </div>
-
+    {% else %}
+        <h1>He doesn't had a Profile</h1>
+    {% endif %}
 
     <hr>
 
@@ -124,7 +127,11 @@
         <a href="{% url 'add_comment' post.pk %}">Add Comment</a>
         <br/><br/>
         {% for comment in post.comments.all %}
-            <strong>{{ comment.user }} - {{ comment.date_added }}</strong><br/>
+            {% if comment.user.profile.id %}
+                <strong><a href="{% url 'show_profile_page' comment.user.profile.id %}">{{ comment.user }}</a> - {{ comment.date_added }}</strong><br/>
+            {% else %}
+                <strong>{{ comment.user }} - {{ comment.date_added }}</strong><br/>
+            {% endif %}
             {{ comment.body }}
             {% if user.is_superuser == True %}
                 <small>
