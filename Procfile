@@ -1,2 +1,1 @@
-
-web: gunicorn PPM_project_Leuter_Lorenzo.wsgi
+web: gunicorn 'PPM_progect_Leuter_Lorenzo.wsgi'
