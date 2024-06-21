@@ -71,5 +71,5 @@ def password_change(request):
     form = PasswordChangingForm(request.user, request.POST)
     if form.is_valid():
         form.save()
-        return redirect('login')
+        return redirect('password_success')
     return render(request, 'registration/change-password.html', {'form': form})
