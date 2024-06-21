@@ -1,8 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.urls import reverse_lazy
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth import logout
 
 from theblog.models import Profile, Post
 from .forms import SignUpForm, EditProfileForm, PasswordChangingForm, ProfilePageForm
@@ -58,10 +58,18 @@ class UserEditView(generic.UpdateView):
         return self.request.user
 
 
-class PasswordsChangeView(PasswordChangeView):
-    form_class = PasswordChangingForm
-    success_url = reverse_lazy('password_success')
-
-
 def password_success(request):
     return render(request, 'registration/password_success.html', {})
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('home')
+
+
+def password_change(request):
+    form = PasswordChangingForm(request.user, request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('login')
+    return render(request, 'registration/change-password.html', {'form': form})
