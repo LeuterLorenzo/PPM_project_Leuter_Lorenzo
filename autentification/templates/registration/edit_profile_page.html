@@ -19,13 +19,15 @@
         {% else %}
 
             <h1>You are not the correct User To EditThis Page...</h1>
-
+            <br/><br/>
+            <a href="{% url 'home' %}" class="btn btn-secondary">Back To The Home</a>
         {% endif %}
 
     {% else %}
 
         <h1>You are not Login, please Login to change your post</h1>
-
+        <br/><br/>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back To The Home</a>
     {% endif %}
 
 {% endblock %}

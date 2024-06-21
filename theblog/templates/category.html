@@ -37,6 +37,8 @@
     {% endfor %}
     {% else %}
         <h2>Sorry this page does not exist.</h2>
+        <br/><br/>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back To The Home</a>
     {% endif %}
 {% endblock %}
 
