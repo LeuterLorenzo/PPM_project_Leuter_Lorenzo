@@ -22,8 +22,8 @@ from django.conf.urls.static import static
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('', include('theblog.urls')),
-                  #path('autentification/', include('django.contrib.auth.urls')),
-                  #path('autentification/', include('autentification.urls')),
-                  path('', include("django.contrib.auth.urls")),
-                  path('', include("autentification.urls")),
+                  path('autentification/', include('django.contrib.auth.urls')),
+                  path('autentification/', include('autentification.urls')),
+                  #path('', include("django.contrib.auth.urls")),
+                  #path('', include("autentification.urls")),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
