@@ -4,4 +4,4 @@ Il progetto rappresenta un blog dove si da la possibilità all'utente di poter c
 
 
 Nota:
-gli utenti sono registrati come user1,user2,....,user6 e poi c'è l'admin (sono tutti username), la password per comodità è uguale per ttui gli utenti: utente8448
+gli utenti sono registrati come user1,user2,....,user6 e poi c'è l'admin (sono tutti username). La password, per comodità, è uguale per tutti gli utenti: utente8448
