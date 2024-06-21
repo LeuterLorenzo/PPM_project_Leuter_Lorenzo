@@ -4,4 +4,4 @@ Il progetto rappresenta un blog dove si da la possibilità all'utente di poter c
 
 
 Nota:
-a causa del deploy si riscontrano dei problemi sul effettuazione del logout (il quale necessita di una nuova build) e sul raggiungimento del change-password(quest'ultimo risolvibile mettendo nell'url .../autentification/password/), in teoria è dovuto dal fatto che si fa uso della modello User dove in locale funziona, ma su render si verificano questi problemi.
+gli utenti sono registrati come user1,user2,....,user6 e poi c'è l'admin (sono tutti username), la password per comodità è uguale per ttui gli utenti: utente8448
