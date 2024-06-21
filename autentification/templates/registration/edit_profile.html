@@ -4,6 +4,11 @@
     Register Page
 {% endblock %}
 
+{% block style %}
+    .helptext{
+        display: none;
+    }
+{% endblock %}
 {{ user.profile.bio }}
 
 {% block content %}
@@ -13,7 +18,13 @@
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
-            <button class="btn btn-secondary">Update Profile</button>
+            <div class="col-1" style="width: 100%">
+                if you want to change the password use this <a href="{% url 'password_change' %}">Form</a>
+            </div>
+            <br/>
+            <div class="col-1" style="width: 100%">
+                <button class="btn btn-secondary">Update Profile</button>
+            </div>
         </form>
     </div>
     <br/><br/>
